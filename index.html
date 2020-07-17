@@ -1,0 +1,39 @@
+This is a simple interface to show Edmonton bus data... <br/>
+<style>
+    canvas {
+        display: inline-block;
+    }
+</style>
+<canvas id="canvas1" width="640" height="640"></canvas>
+<canvas id="canvas2" width="640" height="640"></canvas>
+<script>
+    // fetch data from the api
+    function draw(name, rows) {
+        let q = document.getElementById(name)
+        let c = q.getContext('2d')
+        c.fillStyle ="#ffffffaa"
+        c.fillRect(0,0,q.width, q.height);
+        c.fillStyle = "#000000ff";
+        c.fillText(new Date(rows[0].timestamp*1000).toISOString(), 0, q.height-20);
+        let minY =  53.42103958129883, maxY = 53.69961929321289, maxX = -113.23108673095705, minX  = -113.68351745605467;
+        c.fillStyle = "#000000ff";
+        let drawDot = e => {
+            let x = (e.long-minX)/(maxX-minX)*q.width;
+            let y = (e.lat-minY)/(maxY-minY)*q.height;
+            c.fillRect(x,y,5,5);
+        }
+        rows.forEach(drawDot)
+    }
+
+    let start = 40;
+    setInterval(() => {
+        fetch(`/bus/2020-03-05/14:${start.toLocaleString('en', {minimumIntegerDigits: 2})}/4`, {
+            method: 'get'
+        }).then(res => res.json()).then(e => draw('canvas1', e))
+        fetch(`/bus/2020-07-15/14:${start.toLocaleString('en', {minimumIntegerDigits: 2})}/4`, {
+            method: 'get'
+        }).then(res => res.json()).then(e => draw('canvas2', e))
+        start++;
+        start = start % 60;
+    }, 500)
+</script>

@@ -1,0 +1,19 @@
+{
+  "name": "bus-api",
+  "version": "1.0.0",
+  "description": "Query historical City of Edmonton bus Dada",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bus",
+    "edmonton"
+  ],
+  "author": "Matt Schlosser <hello@mattschlosser.me>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "sqlite3": "^5.0.0"
+  }
+}
