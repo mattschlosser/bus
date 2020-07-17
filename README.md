@@ -7,7 +7,7 @@ Visit http://bus.mattschlosser.me
 ## Backend
 
 This is a simple project I dad this evening to read bus data
-from a database. A simple server for sending bus data to the client
+from a database. I created a simple server for sending bus data to the client
 based on a time interval.
 
 
@@ -44,5 +44,18 @@ CREATE INDEX ts on pos(timestamp);
 
 Here is where data about buses should be stored. 
 
-Due to large file size, the `bus.db` file cannot be uploaded to GitHub. However, try the demo to try out the interface and api
+Due to large file size, the `bus.db` file I have cannot be uploaded to GitHub. However, you can [try the demo])http://bus.mattschlosser.me/] to see the interface and use the API.
 
+You can also make your own database by querying [a GTFS servie](https://developers.google.com/transit/gtfs/) and writing the data into the database 
+
+Once you have collected some data into your database, you will be able to visiualize it by.
+
+1. Clonning the repo 
+
+2. Running `npm install`
+
+3. Ensuring your `bud.db` sqlite3 db is in the root of the project
+
+4. Running `node . `
+
+5. Visit `http://localhost:8080`
