@@ -2,7 +2,7 @@
 
 ## Demo
 
-Visit [http://bus.mattschlosser.me]
+Visit http://bus.mattschlosser.me
 
 ## Backend
 
