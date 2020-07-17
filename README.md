@@ -2,8 +2,7 @@
 
 ## Demo
 
-Visit `https://bus.mattschlosser.me`
-
+Visit [http://bus.mattschlosser.me]
 
 ## Backend
 
