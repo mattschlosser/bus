@@ -56,7 +56,7 @@ Here is where data about buses should be stored.
 
 Due to large file size, the `bus.db` file I have cannot be uploaded to GitHub. However, you can [try the demo](http://bus.mattschlosser.me/) to see the interface and use the API.
 
-You can also make your own database by querying [a GTFS servie](https://developers.google.com/transit/gtfs/) and writing the data into the database 
+You can also make your own database by querying [a GTFS service](https://developers.google.com/transit/gtfs/) and writing the data into the database 
 
 Once you have collected some data into your database, you will be able to visiualize it by.
 
