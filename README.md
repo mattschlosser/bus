@@ -4,6 +4,14 @@
 
 Visit http://bus.mattschlosser.me
 
+## Background 
+A few months ago, before the pandmic hit, I started to log data from my cities GTFS feed. This includes
+the time/date and GPS coordinates of each active bus in the transit system. The city provides an API
+to get the current location of buses. I finally sat down and took some time to visiualize some of the 
+data. I was interested in doing side-by-side comparisons of pre-pandemic vs pandemic bus activity. 
+However, my script for logging the data seems to have crashed multiple times as I did not pay much attention
+to it. However, there was still some excelent data to do some comparisons with. 
+
 ## Backend
 
 This is a simple project I dad this evening to read bus data
