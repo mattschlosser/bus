@@ -17,6 +17,8 @@ a request like
 http://localhost:8080/bus/2020-05-22/14:50/2
 ```
 
+e.g. http://bus.mattschlosser.me/bus/2020-05-22/14:50/2
+
 will return the data of all buses on March 22, 2020 between 2:48 and 2:52 pm
 The '2' indicates a 2 minute spread on either side. It can be adjusted between 1 - 5. 
 This is useful for displaying data in a time sequence fashion.
@@ -42,6 +44,5 @@ CREATE INDEX ts on pos(timestamp);
 
 Here is where data about buses should be stored. 
 
-Due to large file size, the `bus.db` file cannot be uploaded to 
-GitHub. 
+Due to large file size, the `bus.db` file cannot be uploaded to GitHub. However, try the demo to try out the interface and api
 
