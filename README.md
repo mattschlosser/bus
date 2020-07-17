@@ -16,7 +16,7 @@ to it. However, there was still some excelent data to do some comparisons with.
 
 ## Backend
 
-This is a simple project I dad this evening to read bus data
+This is a simple project I did this evening to read bus data
 from a database. I created a simple server for sending bus data to the client
 based on a time interval.
 
