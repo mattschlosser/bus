@@ -5,7 +5,7 @@
 Visit http://bus.mattschlosser.me
 
 ## Background 
-A few months ago, before the pandmic hit, I started to log data from my cities GTFS feed. This includes
+A few months ago, before the pandmic hit, I started to log data from my city's GTFS feed. This includes
 the time/date and GPS coordinates of each active bus in the transit system. The city provides an API
 to get the current location of buses. 
 
