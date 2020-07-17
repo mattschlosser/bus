@@ -64,7 +64,7 @@ Once you have collected some data into your database, you will be able to visiua
 
 2. Running `npm install`
 
-3. Ensuring your `bud.db` sqlite3 db is in the root of the project
+3. Ensuring your `bus.db` sqlite3 db is in the root of the project
 
 4. Running `node . `
 
