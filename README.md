@@ -1,5 +1,8 @@
 # Bus
 
+This is a simple project I did this evening to read bus data
+from a database and present it in a simple user interface.
+
 ## Demo
 
 Visit http://bus.mattschlosser.me
@@ -14,10 +17,14 @@ data. I was interested in doing side-by-side comparisons of pre-pandemic vs pand
 However, my script for logging the data seems to have crashed multiple times as I did not pay much attention
 to it. However, there was still some excelent data to do some comparisons with. 
 
+Data is available between approximately the following dates:
+* Feb 21, 2020 - March 15, 2020
+* May 19, 2020 - May 31, 2020
+* July 4, 2020 - Present
+
 ## Backend
 
-This is a simple project I did this evening to read bus data
-from a database. I created a simple server for sending bus data to the client
+ I created a simple server for sending bus data to the client
 based on a time interval.
 
 
@@ -27,9 +34,8 @@ a request like
 http://localhost:8080/bus/2020-05-22/14:50/2
 ```
 
-e.g. http://bus.mattschlosser.me/bus/2020-05-22/14:50/2
-
-will return the data of all buses on March 22, 2020 between 2:48 and 2:52 pm
+e.g. http://bus.mattschlosser.me/bus/2020-05-22/14:50/2 will return the data of all
+buses on March 22, 2020 between 2:48 and 2:52 pm
 The '2' indicates a 2 minute spread on either side. It can be adjusted between 1 - 5. 
 This is useful for displaying data in a time sequence fashion.
 
