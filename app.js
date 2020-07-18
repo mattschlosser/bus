@@ -5,6 +5,7 @@ require('dotenv').config();
 let db_path = process.env.DB_PATH || './'
 const db = new sqlite3.Database(db_path + 'bus.db', sqlite3.OPEN_READONLY)
 const app = express();
+app.get('/map', (req,res) => res.sendFile('./map2.png', {root: __dirname}))
 app.get('/bus/:date/:time/:spread?/:route?', (req,res) => {
     //;
     try {

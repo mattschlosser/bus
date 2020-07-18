@@ -8,6 +8,7 @@
 <div id="app">
     <div class='content'>
         <div class='header'>
+            <img style="display:none;" id="map" src="/map"/>
             <h1>Edmonton Bus Data Visualizer</h1>
             This is a simple interface to show Edmonton bus data... <br/>
             See <a href="https://github.com/mattschlosser/bus">https://github.com/mattschlosser/bus</a> for more info<br/>
@@ -41,10 +42,15 @@
             time: '14:00'
         }
     }
-    // fetch data from the api
+    var map = null;
+    document.getElementById('map').onload = () => {
+        // fetch data from the api
+            map = document.getElementById("map");
+    }
     function draw(name, rows) {
         let q = document.getElementById(name)
         let c = q.getContext('2d')
+        map && c.drawImage(map, 0, 0, q.width, q.height)
         c.fillStyle ="#ffffffaa"
         c.fillRect(0,0,q.width, q.height);
         c.fillStyle = "#000000ff";
@@ -53,8 +59,8 @@
         c.fillStyle = "#000000ff";
         let drawDot = e => {
             let x = (e.long-minX)/(maxX-minX)*q.width;
-            let y = (e.lat-minY)/(maxY-minY)*q.height;
-            c.fillRect(x,y,5,5);
+            let y = (maxY-e.lat)/(maxY-minY)*q.height;
+            c.fillRect(x-2,y-2,5,5);
         }
         rows.forEach(drawDot)
     }
