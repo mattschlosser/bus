@@ -1,6 +1,6 @@
 # Bus
 
-This is a simple project I did this evening to read bus data
+This is a simple project I did this evening to read Edmonton bus data
 from a database and present it in a simple user interface.
 
 ## Demo
@@ -8,9 +8,10 @@ from a database and present it in a simple user interface.
 Visit http://bus.mattschlosser.me
 
 ## Background 
-A few months ago, before the pandmic hit, I started to log data from my city's GTFS feed. This includes
+A few months ago, before the pandmic hit, I started to log data from my city's (Edmonton, AB) GTFS feed. This includes
 the time/date and GPS coordinates of each active bus in the transit system. The city provides an API
-to get the current location of buses. 
+to get the current location of buses. I set up a script back in Feburary to pull the data every minute or so and 
+save it into an SQLite database. 
 
 I finally sat down and took some time to visiualize some of the 
 data. I was interested in doing side-by-side comparisons of pre-pandemic vs pandemic bus activity. 
@@ -46,7 +47,19 @@ Visit `http://localhost:8080/`
 Here, the data is presented in a map like view. Users can see the location of
 the bus and see updated location in half minute intervals
 
-Future plans involve adding interface controls to allow users to pick time/date
+The interface is still a work in progress. I have added a map and some interface controls so the
+user can pick the date and time. 
+
+Future ideas:
+* Replay the day
+- Watch the activity of all buses for a single day. 
+* Track my bus
+- Track a physical bus throughout the day. For example, the 3 becomes the 
+* Machine learning
+- Compare against the GTFS schedule and see
+  - Are there any buses which are typically early?
+  - Are there any buses which are typically late?
+ 
 
 ## Setup
 
