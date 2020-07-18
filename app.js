@@ -1,20 +1,29 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('bus.db', sqlite3.OPEN_READONLY)
+const moment = require('moment-timezone')
+require('dotenv').config();
+let db_path = process.env.DB_PATH || './'
+const db = new sqlite3.Database(db_path + 'bus.db', sqlite3.OPEN_READONLY)
 const app = express();
 app.get('/bus/:date/:time/:spread?/:route?', (req,res) => {
     //;
     try {
         let date = req.params.date;
+        if (!date.match(/\d{4}-\d{2}-\d{2}/)) {
+            throw "Bad date format";
+        }
         let time = req.params.time;
+        if (!time.match(/\d{2}:\d{2}/)) {
+            throw "Bad time format";
+        }
         console.log(date, time);
-        let spread = req.params.spread || 2;
-        let route = req.params.route || 0;
-        let isNoRoute = !route;
-        let s = (spread % 5);
-        let d = new Date(`${date}T${time}-06:00`);
-        let b = new Date(`${date}T${time}-06:00`);
-        let e = new Date(`${date}T${time}-06:00`);
+        const spread = req.params.spread || 2;
+        const route = req.params.route || 0;
+        const isNoRoute = !route;
+        const s = (spread % 5);
+        const d = new Date(moment.tz(`${date} ${time}`, "America/Edmonton").format());
+        const b = new Date(moment.tz(`${date} ${time}`, "America/Edmonton").format());
+        const e = new Date(moment.tz(`${date} ${time}`, "America/Edmonton").format());
         b.setMinutes(d.getMinutes() - s);
         e.setMinutes(d.getMinutes() + s);
         console.log(b.toISOString(), e.toISOString())

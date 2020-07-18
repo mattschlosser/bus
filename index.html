@@ -1,12 +1,45 @@
-This is a simple interface to show Edmonton bus data... <br/>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
 <style>
     canvas {
         display: inline-block;
     }
 </style>
-<canvas id="canvas1" width="640" height="640"></canvas>
-<canvas id="canvas2" width="640" height="640"></canvas>
+<div id="app">
+    <div class='content'>
+        <div class='header'>
+            <h1>Edmonton Bus Data Visualizer</h1>
+            This is a simple interface to show Edmonton bus data... <br/>
+            <basic-options inline-template>
+                <div class="mt-3">
+                    Update Interval (ms): <input v-model="speed" @change="reset"></v-input>
+                </div>
+            </basic-options><br/>
+        </div>
+        <div class='bus'>
+            <div style="display: inline-block">
+                <canvas id="canvas1" width="640" height="640"></canvas><br/>
+                <interface-controls for="canvas1"></interface-controls>
+            </div>
+            <div style="display: inline-block">
+                <canvas id="canvas2" width="640" height="640"></canvas><br/>
+                <interface-controls for="canvas2"></interface-controls>
+            </div>
+        </div>  
+    </div>
+</div>
+
 <script>
+    let configs = {
+        canvas1: {
+            date: '2020-03-05',
+            time: '14:00'
+        }, 
+        canvas2: {
+            date: '2020-07-15',
+            time: '14:00'
+        }
+    }
     // fetch data from the api
     function draw(name, rows) {
         let q = document.getElementById(name)
@@ -14,7 +47,7 @@ This is a simple interface to show Edmonton bus data... <br/>
         c.fillStyle ="#ffffffaa"
         c.fillRect(0,0,q.width, q.height);
         c.fillStyle = "#000000ff";
-        c.fillText(new Date(rows[0].timestamp*1000).toISOString(), 0, q.height-20);
+        c.fillText(new Date(rows[0].timestamp*1000).toLocaleString(), 0, q.height-20);
         let minY =  53.42103958129883, maxY = 53.69961929321289, maxX = -113.23108673095705, minX  = -113.68351745605467;
         c.fillStyle = "#000000ff";
         let drawDot = e => {
@@ -25,15 +58,89 @@ This is a simple interface to show Edmonton bus data... <br/>
         rows.forEach(drawDot)
     }
 
-    let start = 40;
-    setInterval(() => {
-        fetch(`/bus/2020-03-05/14:${start.toLocaleString('en', {minimumIntegerDigits: 2})}/4`, {
-            method: 'get'
-        }).then(res => res.json()).then(e => draw('canvas1', e))
-        fetch(`/bus/2020-07-15/14:${start.toLocaleString('en', {minimumIntegerDigits: 2})}/4`, {
-            method: 'get'
-        }).then(res => res.json()).then(e => draw('canvas2', e))
+    let start = 00;
+    let updater = () => {
+        Object.keys(configs).forEach(key => {
+            let time = `${configs[key].time.substr(0, 3)}${start.toLocaleString('en', {minimumIntegerDigits: 2})}`
+            fetch(`/bus/${configs[key].date}/${time}/4`, {
+                method: 'get'
+            }).then(res => res.json()).then(e => draw(key, e))
+        });
         start++;
         start = start % 60;
-    }, 500)
+    }
+    let i = null;
+    const setup = speed => {
+        clearInterval(i);
+        i = setInterval(updater, speed)
+    }
+
+    // initallly
+    const speed = 500;
+    setup(speed)
+
+    Vue.component("basic-options", {
+        data() {
+            return { speed }
+        },
+        methods: {
+            reset() {
+                setup(this.speed)
+            }
+        }
+    })
+
+    Vue.component("interface-controls", {
+        props: {
+            for: String
+        }, 
+        data() {
+            return configs[this.for];
+        },
+        methods: {
+            update(event) {
+                console.log(event.target.value);
+            }
+        }, 
+        template: `
+            <div>
+                <div class='center'>
+                    <input type="date" v-model="date" @change="update"></input>
+                    <input type="time" v-model="time" @change="update"></input>
+                </div>
+            </div>
+
+        `
+    })
+    new Vue({el: "#app"})
+
+
 </script>
+<style type="text/css">
+    html, body {
+        margin: 0;
+        padding: 0;
+        font-family: "Arial", sans-serif
+    }
+    #app {
+        width: 100%;
+    }
+    .center {
+        margin: 0 auto;
+        display: inline-block;
+        width: fit-content;
+    }
+    .content {
+        margin: 0 auto;
+    }
+    .header {
+        text-align: center;
+    }
+    .bus {
+        width: 70%;
+        margin: 0 auto;
+    }
+    .mt-3 {
+        margin-top: 30px;
+    }
+</style>
