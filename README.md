@@ -50,15 +50,15 @@ the bus and see updated location in half minute intervals
 The interface is still a work in progress. I have added a map and some interface controls so the
 user can pick the date and time. 
 
-Future ideas:
+## Future ideas:
 * Replay the day
-- Watch the activity of all buses for a single day. 
+  - Watch the activity of all buses for a single day. 
 * Track my bus
-- Track a physical bus throughout the day. For example, the 3 becomes the 
+  - Track a physical bus throughout the day. For example, the 3 becomes the 
 * Machine learning
-- Compare against the GTFS schedule and see
-  - Are there any buses which are typically early?
-  - Are there any buses which are typically late?
+  - Compare against the GTFS schedule and see
+    - Are there any buses which are typically early?
+    - Are there any buses which are typically late?
  
 
 ## Setup
