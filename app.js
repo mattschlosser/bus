@@ -2,14 +2,16 @@ const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const moment = require('moment-timezone')
 require('dotenv').config();
+
 let db_path = process.env.DB_PATH || './'
 const db = new sqlite3.Database(db_path + 'bus.db', sqlite3.OPEN_READONLY)
 const app = express();
 
 /**
  * Checks that the date is a formatted like YYYY-MM-DD
- * @param {String} date 
- * @returns {Boolean}
+ * 
+ * @param    {String}   date  A string representing a date
+ * @returns  {Boolean}        True if properly formatted; else false
  */
 function isValidDate(date) {
     return date.match(/\d{4}-\d{2}-\d{2}/)
@@ -17,8 +19,9 @@ function isValidDate(date) {
 
 /**
  * Checks that the time if formatted like HH:MM
- * @param {String} time 
- * @returns {Boolean}
+ * 
+ * @param   {String}   time  A string representing the time
+ * @returns {Boolean}        True if properly formatted; else false. 
  */
 function isValidTime(time) {
     return time.match(/\d{2}:\d{2}/)
@@ -43,9 +46,10 @@ function getElectricBuses() {
  * 
  * Searches the database for locations of buses within a given time range.
  * 
- * @param {moment} least A moment specifying the oldest time to search for buses
- * @param {moment} most A moment specifying the newest time to search for buses
- * @param {Boolean} electricOnly Whether to return only electirc buses or not
+ * @param    {moment}   least         A moment specifying the oldest time to search for buses
+ * @param    {moment}   most          A moment specifying the newest time to search for buses
+ * @param    {Boolean}  electricOnly  Whether to return only electric buses
+ * @returns  {Promise}                An array of objects, each one representing a bus location.
  */
 function getAllBusesForTimeRange(least, most, electricOnly = false) {
     return new Promise((res, rej) => {
@@ -73,7 +77,6 @@ app.get('/bus/electric', async (req, res) => {
     // get the current location of all electric buses
     try {
         rows = await getElectricBuses();
-        console.log(rows);
         res.json(rows);
     } catch(error) {
         console.error(error)
@@ -82,7 +85,7 @@ app.get('/bus/electric', async (req, res) => {
 });
 
 // flexible API for wall-clock based searching
-app.get('/bus/:date/:time/:spread?/:route?', (req,res) => {
+app.get('/bus/:date/:time/:spread?', async (req,res) => {
     //;
     try {
         let date = req.params.date;
@@ -96,22 +99,19 @@ app.get('/bus/:date/:time/:spread?/:route?', (req,res) => {
         const spread = req.params.spread || 2;
         const s = (spread % 5);
 
-        const route = req.params.route || 0;
-
-        const isNoRoute = !route;
-        const d = new Date(moment.tz(`${date} ${time}`, "America/Edmonton").format());
-        const b = new Date(moment.tz(`${date} ${time}`, "America/Edmonton").format());
-        const e = new Date(moment.tz(`${date} ${time}`, "America/Edmonton").format());
-        b.setMinutes(d.getMinutes() - s);
-        e.setMinutes(d.getMinutes() + s);
-        db.all("select * from pos where timestamp>=strftime('%s', ?) and timestamp<=strftime('%s', ?) and (trip = ? or ?) group by bus;", 
-        b.toISOString(), e.toISOString(), route, isNoRoute,
-        (err, rows) => {
+        const d = moment.tz(`${date} ${time}`, "America/Edmonton");
+        const least = d.clone().subtract(s, 'minutes');
+        const most = d.clone().add(s, 'minutes');
+        try {
+            rows = await getAllBusesForTimeRange(least, most)
             res.json(rows)
-        });
+        } catch (err) {
+            console.error(err)
+            res.sendStatus(500);
+        }
     } catch (e) {
-        res.statusCode = 500;
-        res.send(e)
+        console.error(err);
+        res.sendStatus(500);
     }
 })
 
