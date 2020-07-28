@@ -35,11 +35,13 @@
     let configs = {
         canvas1: {
             date: '2020-03-05',
-            time: '14:00'
+            time: '14:00', 
+            electric: false
         }, 
         canvas2: {
             date: '2020-07-15',
-            time: '14:00'
+            time: '14:00', 
+            electric: false
         }
     }
     var map = null;
@@ -69,9 +71,11 @@
     let updater = () => {
         Object.keys(configs).forEach(key => {
             let time = `${configs[key].time.substr(0, 3)}${start.toLocaleString('en', {minimumIntegerDigits: 2})}`
-            fetch(`/bus/${configs[key].date}/${time}/4`, {
-                method: 'get'
-            }).then(res => res.json()).then(e => draw(key, e))
+            fetch(`/bus/${configs[key].date}/${time}/4`, {method: 'get'})
+                .then(res => res.json())
+                // not verified - but I think the new ETS electric fleet is numbered 8000+
+                .then(rows => rows.filter(e => configs[key].electric ? e.bus >= 8000 : true))
+                .then(e => draw(key, e))
         });
         start++;
         start = start % 60;
@@ -114,6 +118,9 @@
                 <div class='center'>
                     <input type="date" v-model="date" @change="update"></input>
                     <input type="time" v-model="time" @change="update"></input>
+                    <label>
+                        <input type="checkbox" v-model="electric"/>Electric Buses Only
+                    </label>
                 </div>
             </div>
 
