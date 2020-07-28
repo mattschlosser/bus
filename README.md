@@ -23,6 +23,11 @@ Data is available between approximately the following dates:
 * May 19, 2020 - May 31, 2020
 * July 4, 2020 - Present
 
+Here is a comparison between two dates that shows the difference between pre-pandemic and current (July 28) service.
+
+![Map of bus locations](docs/img/datavis1.png "Thursday, March 5, 2020 - 7:48 a.m.")
+![Map of bus locations](docs/img/datavis2.png "Tuesday, July 28, 2020 - 7:48 a.m.")
+
 ## Backend
 
  I created a simple server for sending bus data to the client
