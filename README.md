@@ -1,7 +1,7 @@
 # Bus
 
 This is a simple project I did this evening to read Edmonton bus data
-from a database and present it in a simple user interface.
+from a database and presents it in a simple user interface.
 
 ## Demo
 
@@ -56,11 +56,14 @@ The interface is still a work in progress. I have added a map and some interface
 user can pick the date and time. 
 
 ## Future ideas:
-* Replay the day
+- [ ] Show electric bus schedule
+  - ETS will be putting 40 buses into service in early August 2020. Add some way to track electric only 
+  buses in real time
+- [ ] Replay the day
   - Watch the activity of all buses for a single day. 
-* Track my bus
+- [ ] Track my bus
   - Track a physical bus throughout the day. For example, the 3 becomes the 
-* Machine learning
+- [ ] Machine learning
   - Compare against the GTFS schedule and see
     - Are there any buses which are typically early?
     - Are there any buses which are typically late?
