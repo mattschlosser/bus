@@ -72,7 +72,7 @@ user can pick the date and time.
 
 ## Setup
 
-Create a sqlite db named `bus.db` with the following schema
+Create a SQLite database named `bus.db` in the root of the project with the following schema
 
 
 ```sql
@@ -88,11 +88,11 @@ You can also make your own database by querying [a GTFS service](https://develop
 
 Once you have collected some data into your database, you will be able to visiualize it by.
 
-1. Clonning the repo 
+1. Cloning the repo 
 
 2. Running `npm install`
 
-3. Ensuring your `bus.db` sqlite3 db is in the root of the project
+3. Ensuring your `bus.db` SQLite database is in the root of the project
 
 4. Running `node . `
 
