@@ -67,6 +67,7 @@ user can pick the date and time.
   - Compare against the GTFS schedule and see
     - Are there any buses which are typically early?
     - Are there any buses which are typically late?
+- [ ] Use some sort of Map library and work on UI to make it more user friendly
  
 
 ## Setup
