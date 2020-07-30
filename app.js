@@ -1,12 +1,14 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
-const moment = require('moment-timezone')
+const moment = require('moment-timezone');
+const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 let db_path = process.env.DB_PATH || './'
 const db = new sqlite3.Database(db_path + 'bus.db', sqlite3.OPEN_READONLY)
 const app = express();
-
+app.use(cors());
 /**
  * Checks that the date is a formatted like YYYY-MM-DD
  * 
@@ -116,9 +118,8 @@ app.get('/bus/:date/:time/:spread?', async (req,res) => {
 })
 
 // load front-end file
-app.get('/', (req, res) => {
-    res.sendFile('./index.html', {root: __dirname})
-})
+// app.use('/', express.static(path.join(__dirname, 'dist')))
+app.use(express.static(path.join(__dirname, 'dist')))
 
 // start the server
 app.listen(8080);
