@@ -86,6 +86,17 @@ app.get('/bus/electric', async (req, res) => {
     }
 });
 
+app.get('/bus/now', (req, res) => {
+    db.all("SELECT * FROm pos where timestamp > strftime('%s', datetime('now', '-2 minutes')) group by bus", [], (err, rows) => {
+        if (err) {
+            // rej(err);
+            res.send(err);
+            res.sendStatus(500);
+        }
+        res.send(rows);
+    })
+})
+
 // flexible API for wall-clock based searching
 app.get('/bus/:date/:time/:spread?', async (req,res) => {
     //;
@@ -120,6 +131,8 @@ app.get('/bus/:date/:time/:spread?', async (req,res) => {
 // load front-end file
 // app.use('/', express.static(path.join(__dirname, 'dist')))
 app.use(express.static(path.join(__dirname, 'dist')))
-
+app.get('/*', (req,res) => {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+})
 // start the server
-app.listen(8080);
+app.listen(8081);
