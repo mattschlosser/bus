@@ -6,7 +6,7 @@ const path = require('path');
 require('dotenv').config();
 
 let db_path = process.env.DB_PATH || './'
-const db = new sqlite3.Database(db_path + 'bus.db', sqlite3.OPEN_READONLY)
+const db = new sqlite3.Database(db_path + 'temp2.db', sqlite3.OPEN_READONLY)
 const app = express();
 app.use(cors());
 /**
@@ -95,6 +95,77 @@ app.get('/bus/now', (req, res) => {
         }
         res.send(rows);
     })
+})
+
+app.get('/bus/stats/speed/:bus', (req, res) => {
+    db.all(`SELECT 
+                avg(speed) as \`speed\`, 
+                max(speed) as \`max\`, 
+                strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch', 'localtime')) as \`date\` 
+            FROM 
+                pos 
+            WHERE
+                timestamp > strftime('%s', datetime('now', '-4 days')) 
+            AND bus = ?
+            GROUP BY date;`, 
+            [req.params.bus], 
+            (err, rows) => {
+                if (err) {
+                    // res.send();
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    res.send(rows);
+                }
+            }
+    )
+})
+
+app.get('/bus/stats/speed', (req, res) => {
+    db.all(`SELECT 
+                avg(speed) as \`speed\`, 
+                max(speed) as \`max\`, 
+                strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch', 'localtime')) as \`date\` 
+            FROM 
+                pos 
+            WHERE
+                timestamp > strftime('%s', datetime('now', '-4 days')) 
+            GROUP BY date;`, 
+            [], 
+            (err, rows) => {
+                if (err) {
+                    // res.send();
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    res.send(rows);
+                }
+            }
+    )
+})
+
+app.get('/bus/stats/speed/:bus', (req, res) => {
+    db.all(`SELECT 
+                avg(speed) as \`speed\`, 
+                max(speed) as \`max\`, 
+                strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch', 'localtime')) as \`date\` 
+            FROM 
+                pos 
+            WHERE
+                timestamp > strftime('%s', datetime('now', '-4 days')) 
+            GROUP BY date
+            ORDER BY date desc;`, 
+            [], 
+            (err, rows) => {
+                if (err) {
+                    // res.send();
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    res.send(rows);
+                }
+            }
+    )
 })
 
 // flexible API for wall-clock based searching
